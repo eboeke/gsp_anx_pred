@@ -1,4 +1,4 @@
-#Matlab scripts 
+Matlab scripts 
 
 These are used for various data processing steps on the neuroimaging data after it is processed with FSL. I also compute the composite anxiety scores in these scripts, and create confound matrices. 
 
