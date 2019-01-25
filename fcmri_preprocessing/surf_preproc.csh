@@ -1,9 +1,11 @@
 #!/bin/csh
 
-#Flags:
+#runs surface preprocessing steps (used in conjunction with schaefer and yeo 
+#parcellations). assumes preproc_fcMRI_gsp.csh has already been run.
 
+#Flags:
 #	--s (subject name)
-#   --r (run number)
+#	--r (run number)
 setenv SUBJECTS_DIR /scratch/eb1384/gsp/recons
 set scan_type = ();
 
