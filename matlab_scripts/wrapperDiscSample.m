@@ -40,6 +40,8 @@ bisZ  = zscore(gspData.BISBAS_BIS(goodSubs));
 tciHAZ  = zscore(gspData.TCI_HarmAvoidance(goodSubs));
 
 composAnx = mean([staiZ  neoNZ  bisZ tciHAZ],2);
+csvwrite([outputDataPath 'sepAnxDisc.csv'],[staiZ  neoNZ  bisZ tciHAZ]);%added for revision 4/6/18
+
 csvwrite([outputDataPath 'composAnxDisc.csv'],composAnx);
 
 %% make confound matrix
@@ -102,4 +104,5 @@ amygseed = cell(1);
 amygseed{1} = 'Amygdala';
 
 voxelConnToMat(subs,amygseed,'amyg_seed_map',[outputDataPath 'seed_maps/']);
-
+%% make matrix indicating coverage of each voxel for each subject (same shape as tables above)
+coverageMat(subs,[outputDataPath 'seed_maps/'])

@@ -84,3 +84,5 @@ amygseed = cell(1);
 amygseed{1} = 'Amygdala';
 
 voxelConnToMat(subsTest,amygseed,'amyg_seed_map',outputDataPath);
+%% make matrix indicating coverage of each voxel for each subject (same shape as tables above)
+coverageMat(subsTest,outputDataPath)
