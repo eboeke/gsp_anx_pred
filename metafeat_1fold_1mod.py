@@ -137,22 +137,29 @@ def main():
     print(s)
     s_map =  pd.read_csv(data_path + s + '.csv',header=None)
     s_map = s_map.values
+    coverage_map =  pd.read_csv(data_path  + 'coverage_masks.csv',header=None)
+    coverage_map = coverage_map.values
     #zscore within subject (excluding values of 0, which indicate that subject didnt
     #have coverage in that voxel)
-    zero_idx = s_map==0
-    s_map_naned = np.array(s_map)
-    s_map_naned[zero_idx] = np.nan
-    s_map_z = np.array(s_map)
-    for i in range(s_map.shape[0]):
-        s_map_z[i,~np.isnan(s_map_naned[i,:])]= stats.zscore(s_map_z[i,~np.isnan(s_map_naned[i,:])])
+
+    s_naned = np.array(s_map)
+    nan_idx = coverage_map==0
+    s_naned[nan_idx] = np.nan
+
+    #zscoring
+    s_data_z = np.array(s_naned)
+    for i in range(s_data_z.shape[0]):
+        s_data_z[i,~np.isnan(s_naned[i,:])]= stats.zscore(s_data_z[i,~np.isnan(s_naned[i,:])])
+
+
     steps = [
-             ('impute',Imputer(missing_values=0,strategy='mean')),
+             ('impute',Imputer(missing_values='NaN',strategy='mean')),
              ('standardize', StandardScaler()),
-             ('regression', Ridge(alpha=100000))
+             ('regression', Ridge(alpha=1000))
              ]
     pipeline = Pipeline(steps)
     num_models= len(seeds)
-    stack_1map_1cvfold(s_map_z,anx_data,pipeline,s,cv_fold,num_models)
+    stack_1map_1cvfold(s_data_z,anx_data,pipeline,s,cv_fold,num_models)
 
 if __name__== '__main__':
     main()
